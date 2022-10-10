@@ -1,27 +1,23 @@
 package com.movierental.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
 
     private String name;
 
-    @ManyToOne
+    @OneToMany(mappedBy = "client")
     private Set<Rental> rentals;
 
 }

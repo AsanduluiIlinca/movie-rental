@@ -3,23 +3,27 @@ package com.movierental.service.impl;
 import com.movierental.model.Movie;
 import com.movierental.repository.MovieRepository;
 import com.movierental.service.MovieService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class MovieServiceImpl implements MovieService {
 
     final private MovieRepository movieRepository;
-
-    public MovieServiceImpl(MovieRepository movieRepository) {
-        this.movieRepository = movieRepository;
-    }
 
 
     @Override
     public List<Movie> getMovies() {
         return movieRepository.findAll();
+    }
+
+    @Override
+    public Optional<Movie> findById(Long id) {
+        return movieRepository.findById(id);
     }
 
     @Override

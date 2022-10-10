@@ -1,5 +1,6 @@
 package com.movierental.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
 
     private String title;

@@ -1,16 +1,12 @@
 package com.movierental.controller;
 
-import com.movierental.model.Client;
 import com.movierental.model.Movie;
 import com.movierental.service.MovieService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("movie")
@@ -24,14 +20,12 @@ public class MovieController {
         return movieService.getMovies();
     }
 
+    @GetMapping("{id}")
+    Optional<Movie> findById(@PathVariable Long id) {
+        return movieService.findById(id);
+    }
+
     @PostMapping
-    @Operation(summary = "Register a new client", tags = {"Client",},
-            responses = {
-                    @ApiResponse(responseCode = "200",
-                            description = "Returns the new Client",
-                            content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = Client.class)))
-            })
     Movie addClient(@RequestBody Movie newMovie) {
         return movieService.save(newMovie);
     }

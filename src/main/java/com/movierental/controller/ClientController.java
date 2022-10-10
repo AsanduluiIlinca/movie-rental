@@ -2,14 +2,13 @@ package com.movierental.controller;
 
 import com.movierental.model.Client;
 import com.movierental.service.ClientService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("client")
@@ -23,14 +22,13 @@ public class ClientController {
         return clientService.getClients();
     }
 
+    @GetMapping("{id}")
+    ResponseEntity<Client> findById(@PathVariable Long id) {
+        Optional<Client> client = clientService.findById(id);
+        return client.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
     @PostMapping
-    @Operation(summary = "Register a new client", tags = {"Client",},
-            responses = {
-                    @ApiResponse(responseCode = "200",
-                            description = "Returns the new Client",
-                            content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = Client.class)))
-            })
     Client addClient(@RequestBody Client newClient) {
         return clientService.save(newClient);
     }

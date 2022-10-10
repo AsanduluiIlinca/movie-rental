@@ -3,21 +3,25 @@ package com.movierental.service.impl;
 import com.movierental.model.Client;
 import com.movierental.repository.ClientRepository;
 import com.movierental.service.ClientService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
 
-    public ClientServiceImpl(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
-    }
-
     public List<Client> getClients() {
         return clientRepository.findAll();
+    }
+
+    @Override
+    public Optional<Client> findById(Long id) {
+        return clientRepository.findById(id);
     }
 
     @Override
