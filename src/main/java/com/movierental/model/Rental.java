@@ -1,20 +1,17 @@
 package com.movierental.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class Rental {
 
     @Id
@@ -28,13 +25,20 @@ public class Rental {
 
     @ManyToMany
     @JoinTable(name = "rental_movie", joinColumns = @JoinColumn(name = "rental_id"), inverseJoinColumns = @JoinColumn(name = "movie_id"))
-    private Set<Movie> movies;
+    private Set<Movie> movies = new HashSet<>();
 
-    private LocalDate rentedDate;
+    private LocalDate rentDate = LocalDate.now();
 
     private LocalDate dueDate;
 
-    private LocalDate returnedDate;
+    private LocalDate returnDate;
+
+    private boolean finalized;
+
+    public void finalizeRental() {
+        finalized = true;
+        returnDate = LocalDate.now();
+    }
 
     public boolean containsMovie(Long movieId) {
         return movies.stream().anyMatch(movie -> movie.getId().equals(movieId));

@@ -1,5 +1,6 @@
 package com.movierental.service.impl;
 
+import com.movierental.api.RentalRequest;
 import com.movierental.model.Movie;
 import com.movierental.model.Rental;
 import com.movierental.repository.ClientRepository;
@@ -15,46 +16,29 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class RentalServiceImpl implements RentalService {
 
-    public Integer DAYS_TO_RENT = 7;
-
+    public static Integer DAYS_TO_RENT = 7;
     final private RentalRepository rentalRepository;
     final private MovieRepository movieRepository;
-
     final private ClientRepository clientRepository;
 
+    @Override
+    public Rental createRental(RentalRequest rentalRequest) {
+        var rental = new Rental();
+
+        clientRepository.findById(rentalRequest.getClientId()).ifPresent(rental::setClient);
+        rental.setDueDate(LocalDate.now().plusDays(DAYS_TO_RENT));
+        movieRepository.findById(rentalRequest.getMovieId()).ifPresent(movie -> rental.getMovies().add(movie));
+
+        return rentalRepository.save(rental);
+    }
+
+    @Override
+    public void endRental(Long id) {
+        rentalRepository.findById(id).ifPresent(Rental::finalizeRental);
+    }
 
     public boolean checkMovieAvailability(Movie movie) {
-
         return rentalRepository.findAll().stream().filter(rental -> rental.containsMovie(movie.getId())).allMatch(rental -> rental.getDueDate() != null);
-
     }
-
-    public void rentMovie(String movieTitle, Long clientId) {
-
-        Movie movie = movieRepository.findAll().stream().filter(movie1 -> movie1.getTitle().equals(movieTitle)).findAny().orElse(null);
-
-        if (!checkMovieAvailability(movie)) {
-            throw new RuntimeException("Movie already rented");
-        }
-
-        Rental rental = new Rental();
-
-        rental.setClient(clientRepository.findById(clientId).get());
-        rental.getMovies().add(movieRepository.findByTile(movieTitle));
-        rental.setRentedDate(LocalDate.now());
-        rental.setDueDate(LocalDate.now().plusDays(DAYS_TO_RENT));
-        rental.setRentedDate(null);
-
-        rentalRepository.findAll().add(rental);
-
-    }
-
-    public void returnMovie(String movieTitle, Long clientId) {
-        Movie movie = movieRepository.findAll().stream().filter(movie1 -> movie1.getTitle().equals(movieTitle)).findAny().orElse(null);
-
-        Rental rent = rentalRepository.findAll().stream().filter(rental -> rental.containsMovie(movie.getId()) && rental.getClient().getId().equals(clientId)).filter(rental -> rental.getReturnedDate() == null).findAny().orElse(null);
-        rent.setReturnedDate(LocalDate.now());
-    }
-
 
 }

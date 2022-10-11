@@ -1,7 +1,10 @@
 package com.movierental.service;
 
-public interface RentalService {
-    void rentMovie(String movieTitle, Long clientId);
+import com.movierental.api.RentalRequest;
+import com.movierental.model.Rental;
 
-    void returnMovie(String movieTitle, Long clientId);
+public interface RentalService {
+    Rental createRental(RentalRequest rentalRequest);
+
+    void endRental(Long id);
 }

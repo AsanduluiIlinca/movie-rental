@@ -1,13 +1,17 @@
 package com.movierental.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
-@Data
 public class Client {
 
     @Id
@@ -17,7 +21,8 @@ public class Client {
 
     private String name;
 
-    @OneToMany(mappedBy = "client")
-    private Set<Rental> rentals;
+    @JsonIgnore
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
+    private Set<Rental> rentals = new HashSet<>();
 
 }
