@@ -53,4 +53,9 @@ public class ClientServiceImpl implements ClientService {
         return clientRepository.searchClientByName(name);
     }
 
+    @Override
+    public List<String> searchActiveClients() {
+        return clientRepository.searchForActiveClients();
+    }
+
 }

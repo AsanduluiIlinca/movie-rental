@@ -1,7 +1,6 @@
 package com.movierental.repository.impl;
 
 import com.movierental.model.Movie;
-import com.movierental.model.RatedMovie;
 import com.movierental.repository.MovieRepositoryCustom;
 import org.springframework.stereotype.Repository;
 
@@ -46,11 +45,6 @@ public class MovieRepositoryCustomImpl implements MovieRepositoryCustom {
         typedQuery.setParameter("likeCondition", "%" + description + "%");
 
         return typedQuery.getResultList();
-    }
-
-    @Override
-    public List<RatedMovie> searchMostRentedMovies() {
-        return null;
     }
 
 }

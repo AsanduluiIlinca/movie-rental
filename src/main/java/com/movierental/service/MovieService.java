@@ -21,4 +21,5 @@ public interface MovieService {
 
     List<Movie> searchMoviesByDescription(String movieDescription);
 
+    List<String> searchForPopularMovies();
 }

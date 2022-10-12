@@ -49,4 +49,9 @@ public class ClientController {
         return clientService.searchClientByName(clientName);
     }
 
+    @GetMapping("active")
+    List<String> searchActiveClients() {
+        return clientService.searchActiveClients();
+    }
+
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -36,6 +37,11 @@ public class RentalServiceImpl implements RentalService {
     @Override
     public void endRental(Long id) {
         rentalRepository.findById(id).ifPresent(Rental::finalizeRental);
+    }
+
+    @Override
+    public List<String> lastRentalMovies() {
+        return rentalRepository.lateRentalMovies();
     }
 
 }

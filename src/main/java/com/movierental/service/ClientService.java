@@ -19,4 +19,6 @@ public interface ClientService {
 
     List<Client> searchClientByName(String name);
 
+    List<String> searchActiveClients();
+
 }

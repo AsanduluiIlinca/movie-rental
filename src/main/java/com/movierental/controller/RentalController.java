@@ -6,6 +6,8 @@ import com.movierental.service.RentalService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("rental")
 @AllArgsConstructor
@@ -21,6 +23,11 @@ public class RentalController {
     @PutMapping("{id}")
     void returnMovie(@PathVariable Long id) {
         rentalService.endRental(id);
+    }
+
+    @GetMapping("/late")
+    List<String> lateRentalMovies() {
+        return rentalService.lastRentalMovies();
     }
 
 }

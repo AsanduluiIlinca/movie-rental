@@ -51,5 +51,9 @@ public class MovieController {
         return movieService.searchMoviesByDescription(movieDescription);
     }
 
+    @GetMapping("popular")
+    List<String> getRatedMovies() {
+        return movieService.searchForPopularMovies();
+    }
 }
 

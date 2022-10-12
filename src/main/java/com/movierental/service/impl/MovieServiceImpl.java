@@ -61,4 +61,9 @@ public class MovieServiceImpl implements MovieService {
         return movieRepository.searchMoviesByDescription(movieDescription);
     }
 
+    @Override
+    public List<String> searchForPopularMovies() {
+        return movieRepository.searchForPopularMovies();
+    }
+
 }
