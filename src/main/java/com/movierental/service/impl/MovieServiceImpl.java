@@ -50,4 +50,15 @@ public class MovieServiceImpl implements MovieService {
     public void deleteById(Long id) {
         movieRepository.deleteById(id);
     }
+
+    @Override
+    public List<Movie> searchMovieByTitle(String movieTitle) {
+        return movieRepository.searchMoviesByTitle(movieTitle);
+    }
+
+    @Override
+    public List<Movie> searchMoviesByDescription(String movieDescription) {
+        return movieRepository.searchMoviesByDescription(movieDescription);
+    }
+
 }

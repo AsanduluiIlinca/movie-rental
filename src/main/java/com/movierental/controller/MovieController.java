@@ -32,13 +32,23 @@ public class MovieController {
 
     @PutMapping("{id}")
     Movie updateClient(@RequestBody Movie newMovie, @PathVariable Long id) {
-
         return movieService.update(newMovie, id);
     }
 
     @DeleteMapping("{id}")
     void deleteMovie(@PathVariable Long id) {
         movieService.deleteById(id);
+    }
+
+    @GetMapping("/search/{movieTitle}")
+    @ResponseBody
+    List<Movie> getMovieByTitle(@PathVariable String movieTitle) {
+        return movieService.searchMovieByTitle(movieTitle);
+    }
+
+    @GetMapping("/{movieDescription}")
+    List<Movie> getMovieByDescription(@PathVariable String movieDescription) {
+        return movieService.searchMoviesByDescription(movieDescription);
     }
 
 }

@@ -44,4 +44,9 @@ public class ClientController {
         clientService.deleteById(id);
     }
 
+    @GetMapping("/search/{clientName}")
+    List<Client> searchClientByName(@PathVariable String clientName) {
+        return clientService.searchClientByName(clientName);
+    }
+
 }

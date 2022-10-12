@@ -1,7 +1,6 @@
 package com.movierental.service.impl;
 
 import com.movierental.api.RentalRequest;
-import com.movierental.model.Movie;
 import com.movierental.model.Rental;
 import com.movierental.repository.ClientRepository;
 import com.movierental.repository.MovieRepository;
@@ -9,6 +8,7 @@ import com.movierental.repository.RentalRepository;
 import com.movierental.service.RentalService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
@@ -32,13 +32,10 @@ public class RentalServiceImpl implements RentalService {
         return rentalRepository.save(rental);
     }
 
+    @Transactional
     @Override
     public void endRental(Long id) {
         rentalRepository.findById(id).ifPresent(Rental::finalizeRental);
-    }
-
-    public boolean checkMovieAvailability(Movie movie) {
-        return rentalRepository.findAll().stream().filter(rental -> rental.containsMovie(movie.getId())).allMatch(rental -> rental.getDueDate() != null);
     }
 
 }
