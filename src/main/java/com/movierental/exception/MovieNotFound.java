@@ -1,4 +1,4 @@
 package com.movierental.exception;
 
-public class MovieNotFound {
+public class MovieNotFound extends RuntimeException {
 }

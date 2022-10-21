@@ -9,5 +9,4 @@ public interface MovieRepositoryCustom {
 
     List<Movie> searchMoviesByDescription(String description);
 
-//    List<RatedMovie> searchMostRentedMovies();
 }

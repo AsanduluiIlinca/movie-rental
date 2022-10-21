@@ -3,12 +3,10 @@ package com.movierental.controller;
 import com.movierental.model.Client;
 import com.movierental.service.ClientService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("client")
@@ -24,8 +22,7 @@ public class ClientController {
 
     @GetMapping("{id}")
     ResponseEntity<Client> findById(@PathVariable Long id) {
-        Optional<Client> client = clientService.findById(id);
-        return client.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return clientService.findById(id);
     }
 
     @PostMapping
@@ -35,7 +32,6 @@ public class ClientController {
 
     @PutMapping("{id}")
     Client updateClient(@RequestBody Client newClient, @PathVariable Long id) {
-
         return clientService.update(newClient, id);
     }
 
@@ -52,6 +48,11 @@ public class ClientController {
     @GetMapping("active")
     List<String> searchActiveClients() {
         return clientService.searchActiveClients();
+    }
+
+    @GetMapping("active/custom")
+    List<String> searchActiveClient() {
+        return clientService.searchActiveCustomClients();
     }
 
 }

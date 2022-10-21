@@ -1,10 +1,15 @@
 package com.movierental.service.impl;
 
+import com.movierental.exception.ClientNotFound;
 import com.movierental.model.Client;
 import com.movierental.repository.ClientRepository;
 import com.movierental.service.ClientService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,8 +25,9 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Optional<Client> findById(Long id) {
-        return clientRepository.findById(id);
+    public ResponseEntity<Client> findById(Long id) {
+        Optional<Client> client = clientRepository.findById(id);
+        return client.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseThrow(ClientNotFound::new);
     }
 
     @Override
@@ -56,6 +62,16 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public List<String> searchActiveClients() {
         return clientRepository.searchForActiveClients();
+    }
+
+    @Override
+    public List<String> searchActiveCustomClients() {
+        return clientRepository.searchActiveClientsCustom();
+    }
+
+    @ExceptionHandler(ClientNotFound.class)
+    public ResponseEntity<Object> handleException() {
+        return new ResponseEntity<>("Client not found!", new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
 }

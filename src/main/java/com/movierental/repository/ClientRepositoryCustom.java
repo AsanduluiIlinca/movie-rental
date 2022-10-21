@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface ClientRepositoryCustom {
     List<Client> searchClientByName(String name);
+
+    List<String> searchActiveClientsCustom();
 }

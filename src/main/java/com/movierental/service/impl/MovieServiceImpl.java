@@ -1,10 +1,15 @@
 package com.movierental.service.impl;
 
+import com.movierental.exception.MovieNotFound;
 import com.movierental.model.Movie;
 import com.movierental.repository.MovieRepository;
 import com.movierental.service.MovieService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,8 +26,9 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Optional<Movie> findById(Long id) {
-        return movieRepository.findById(id);
+    public ResponseEntity<Movie> findById(Long id) {
+        Optional<Movie> movie = movieRepository.findById(id);
+        return movie.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseThrow(MovieNotFound::new);
     }
 
     @Override
@@ -64,6 +70,11 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<String> searchForPopularMovies() {
         return movieRepository.searchForPopularMovies();
+    }
+
+    @ExceptionHandler(MovieNotFound.class)
+    public ResponseEntity<Object> handleException() {
+        return new ResponseEntity<>("Movie not found!", new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
 }

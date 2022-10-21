@@ -46,5 +46,4 @@ public class MovieRepositoryCustomImpl implements MovieRepositoryCustom {
 
         return typedQuery.getResultList();
     }
-
 }

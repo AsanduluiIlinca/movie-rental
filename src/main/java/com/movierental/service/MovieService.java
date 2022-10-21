@@ -1,15 +1,15 @@
 package com.movierental.service;
 
 import com.movierental.model.Movie;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface MovieService {
 
     List<Movie> getMovies();
 
-    Optional<Movie> findById(Long id);
+    ResponseEntity<Movie> findById(Long id);
 
     Movie save(Movie newMovie);
 
